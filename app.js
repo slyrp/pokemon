@@ -122,6 +122,7 @@ function getColorFromData(colorData) {
 }
 
 // Pokémon container and initial settings
+const pokedexContainer = document.getElementById('pokedexContainer');
 const pokemonContainer = document.getElementById('pokemonContainer');
 let currentOffset = 1; // Start with the first Pokémon
 const limit = 20; // Number of Pokémon to load per request
@@ -130,10 +131,14 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function getPokemon(id) {
+async function getPokemon(id, log = false) {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const data = await response.json();
+    if (log) {
+      console.log("ID: " + id + " - Pokemon:");
+      console.log(data);
+    }
     return data;
   } catch (err) {
     console.error(err);
@@ -141,21 +146,63 @@ async function getPokemon(id) {
   }
 }
 
-async function getPokemonSpecies(id) {
+async function getPokemonSpecies(id, log = false) {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
     const data = await response.json();
+    if (log) {
+      console.log("ID: " + id + " - Species:");
+      console.log(data);
+    }
     return data;
   } catch (err) {
     console.error(err);
     return null;
   }
+}
+
+async function getPokemonMoves(id, log = false) {
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/move/${id}/`);
+    const data = await response.json();
+    if (log) {
+      console.log("ID: " + id + " - Moves:");
+      console.log(data);
+    }
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function getPokemonStats(id, log = false) {
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/stat/${id}/`);
+    const data = await response.json();
+    if (log) {
+      console.log("ID: " + id + " - Stats:");
+      console.log(data);
+    }
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+getPokemonMoves(9, true);
+
+function correctID(id) {
+  return id.toString().padStart(4, '0');
 }
 
 // Load Pokémon data and create card
 async function createPokemonCard(id) {
-  const pokemon = await getPokemon(id);
-  const pokemonSpecies = await getPokemonSpecies(id);
+  const pokemon = await getPokemon(id, true);
+  const pokemonSpecies = await getPokemonSpecies(id, true);
   if (!pokemon || !pokemonSpecies) return;
 
   const pokemonColor = pokemonSpecies.color.name.toLowerCase();
@@ -164,10 +211,31 @@ async function createPokemonCard(id) {
   // Create Pokémon card
   const pokemonCard = document.createElement('div');
   pokemonCard.classList.add('pokemon-card');
-  pokemonCard.style.backgroundColor = getColorFromData(colorData);
+  pokemonCard.style.borderColor = modifyColor(getColorFromData(colorData), 'lighten', 20);
+  pokemonCard.setAttribute('id', `${correctID(pokemon.id.toString())}`);
+  pokemonCard.setAttribute('abilities', pokemon.abilities.map(a => a.ability.name).join(', '));
+  pokemonCard.setAttribute('types', pokemon.types.map(t => t.type.name).join(', '));
+  pokemonCard.setAttribute('height', pokemon.height.toString());
+  pokemonCard.setAttribute('weight', pokemon.weight.toString());
+  pokemonCard.setAttribute('base_experience', pokemon.base_experience.toString());
+  pokemonCard.setAttribute('stats', pokemon.stats.map(s => `${s.stat.name}: ${s.base_stat}`).join(', '));
   pokemonCard.addEventListener('click', () => {
-    pokemonCard.classList.toggle('active');
+    pokemonContainer.classList.toggle('full-card');
   });
+
+  const topContainer = document.createElement('div');
+  topContainer.classList.add('top-container');
+
+  const h3 = document.createElement('h3');
+  h3.innerText = `#${correctID(pokemon.id.toString())}`;
+  topContainer.appendChild(h3);
+
+  const go = document.createElement('h3');
+  go.classList.add('go');
+  go.innerText = '→';
+  topContainer.appendChild(go);
+
+  pokemonCard.appendChild(topContainer);
 
   const h1 = document.createElement('h1');
   h1.innerText = capitalizeFirstLetter(pokemon.name);
@@ -197,7 +265,7 @@ async function createPokemonCard(id) {
   pokemonCard.appendChild(h1);
   pokemonCard.appendChild(badgeContainer);
 
-  pokemonContainer.appendChild(pokemonCard);
+  pokedexContainer.appendChild(pokemonCard);
 }
 
 // Initialize and load Pokémon
