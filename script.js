@@ -226,21 +226,41 @@ async function loadPokemonCard(url) {
     }
 }
 
+// Process Pokemon name to handle gender suffixes
+function processPokemonName(name) {
+    let displayName = name;
+    let genderIndicator = '';
+    
+    if (name.endsWith('-m')) {
+        displayName = name.slice(0, -2);
+        genderIndicator = ' ♂';
+    } else if (name.endsWith('-f')) {
+        displayName = name.slice(0, -2);
+        genderIndicator = ' ♀';
+    }
+    
+    return {
+        baseName: displayName,
+        genderIndicator: genderIndicator,
+        fullName: displayName + genderIndicator
+    };
+}
+
 // Create Pokemon card element
 function createPokemonCard(pokemon) {
     const card = document.createElement('div');
     card.className = 'pokemon-card';
     
     const id = pokemon.id.toString().padStart(3, '0');
-    const name = pokemon.name;
+    const nameData = processPokemonName(pokemon.name);
     const image = pokemon.sprites.other['official-artwork']?.front_default || 
                   pokemon.sprites.front_default;
     const types = pokemon.types.map(type => type.type.name);
     
     card.innerHTML = `
         <div class="pokemon-id">#${id}</div>
-        <img src="${image}" alt="${name}" loading="lazy">
-        <div class="pokemon-name">${name}</div>
+        <img src="${image}" alt="${nameData.baseName}" loading="lazy">
+        <div class="pokemon-name">${nameData.fullName}</div>
         <div class="pokemon-types">
             ${types.map(type => `<span class="type-badge type-${type}">${type}</span>`).join('')}
         </div>
@@ -267,7 +287,7 @@ function createPokemonCard(pokemon) {
 // Show Pokemon details in modal
 function showPokemonDetails(pokemon) {
     const id = pokemon.id.toString().padStart(3, '0');
-    const name = pokemon.name;
+    const nameData = processPokemonName(pokemon.name);
     const image = pokemon.sprites.other['official-artwork']?.front_default || 
                   pokemon.sprites.front_default;
     const types = pokemon.types.map(type => type.type.name);
@@ -280,10 +300,10 @@ function showPokemonDetails(pokemon) {
     
     modalContent.innerHTML = `
         <div class="modal-pokemon-image">
-            <img src="${image}" alt="${name}">
+            <img src="${image}" alt="${nameData.baseName}">
         </div>
         <div class="modal-pokemon-header">
-            <div class="modal-pokemon-name">${name}</div>
+            <div class="modal-pokemon-name">${nameData.fullName}</div>
             <div class="modal-pokemon-id">#${id}</div>
             <div class="modal-pokemon-types">
                 ${types.map(type => `<span class="type-badge type-${type}">${type}</span>`).join('')}

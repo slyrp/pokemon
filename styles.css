@@ -49,19 +49,6 @@ body {
     margin: 0 auto;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
-    color: white;
-}
-
-header h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 2px;
-}
-
 .search-container {
     display: flex;
     justify-content: center;
@@ -85,12 +72,13 @@ header h1 {
     padding: 22px 60px 20px 50px;
     font-size: 1.1rem;
     border: 1px solid #4A4A4A;
-    border-radius: 15px;
+    border-radius: 20px;
     outline: none;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, box-shadow 0.2s;
     background: #2D2D2D;
     color: white;
+    corner-shape: squircle;
 }
 
 #searchInput::placeholder {
@@ -107,7 +95,7 @@ header h1 {
     padding: 10px 10px;
     font-size: 1.2rem;
     border: 1px solid #4A4A4A;
-    border-radius: 10px;
+    border-radius: 15px;
     background: #2D2D2D;
     color: white;
     cursor: pointer;
@@ -118,6 +106,7 @@ header h1 {
     margin-right: 5px;
     width: auto;
     height: auto;
+    corner-shape: squircle;
 }
 
 #searchBtn svg {
@@ -139,18 +128,16 @@ header h1 {
     transform: translateY(-50%);
 }
 
-
-
 .pokemon-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 25px;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .pokemon-card {
     background: #2D2D2D;
-    border-radius: 15px;
+    border-radius: 20px;
     padding: 25px;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -158,6 +145,7 @@ header h1 {
     overflow: hidden;
     border: 1px solid #4a4a4a;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    corner-shape: squircle;
 }
 
 .pokemon-card:hover {
@@ -166,7 +154,6 @@ header h1 {
     /* Simple animation effect */
 
 }
-
 
 .pokemon-card img {
     width: 100%;
@@ -186,10 +173,11 @@ header h1 {
     right: 15px;
     color: white;
     padding: 5px 12px;
-    border-radius: 10px;
+    border-radius: 15px;
     font-size: 0.85rem;
     font-weight: bold;
     border: 1px solid #4A4A4A;
+    corner-shape: squircle;
 }
 
 .pokemon-name {
@@ -211,12 +199,13 @@ header h1 {
 
 .type-badge {
     padding: 6px 15px;
-    border-radius: 10px;
+    border-radius: 15px;
     font-size: 0.85rem;
     font-weight: 600;
     color: white;
     text-transform: capitalize;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    corner-shape: squircle;
 }
 
 .loading {
@@ -319,8 +308,8 @@ header h1 {
 .modal-content {
     position: relative;
     background: #2a2a2a;
-    border-radius: 15px;
-    padding: 40px;
+    border-radius: 20px;
+    padding: 40px 40px 20px 40px;
     max-width: 600px;
     width: 90%;
     max-height: 90vh;
@@ -329,6 +318,7 @@ header h1 {
     z-index: 1001;
     animation: slideUp 0.3s ease-out;
     border: solid 1px #4A4A4A;
+    corner-shape: squircle;
 }
 
 @keyframes slideUp {
@@ -352,7 +342,7 @@ header h1 {
     font-size: 2rem;
     width: 42px;
     height: 42px;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -360,6 +350,7 @@ header h1 {
     transition: background 0.2s, transform 0.2s;
     line-height: 1;
     z-index: 1002;
+    corner-shape: squircle;
 }
 
 .modal-close:hover {
@@ -415,9 +406,10 @@ header h1 {
 .modal-info-item {
     background: #1a1a1a;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 15px;
     text-align: center;
     border: 1px solid #4A4A4A;
+    corner-shape: squircle;
 }
 
 .modal-info-label {
