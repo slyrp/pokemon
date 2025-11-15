@@ -23,17 +23,13 @@
                     autocomplete="off"
                 >
                 <button id="searchBtn" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14" fill="none">
+                    <svg class="search-arrow" xmlns="http://www.w3.org/2000/svg" width="17" height="14" viewBox="0 0 17 14" fill="none">
                         <path d="M1 6.83333H15.5833M15.5833 6.83333L9.75 1M15.5833 6.83333L9.75 12.6667" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    </svg>
+                    <div class="search-spinner hidden"></div>
                 </button>
             </div>
         </header>
-        
-        <div id="loadingIndicator" class="loading hidden">
-            <div class="spinner"></div>
-            <p>Loading Pokémon...</p>
-        </div>
         
         <div id="pokemonGrid" class="pokemon-grid"></div>
         
@@ -42,7 +38,7 @@
         </div>
         
         <div id="noResults" class="no-results hidden">
-            <p>No Pokémon found. Try a different search!</p>
+            <p>nothing here gng</p>
         </div>
         
         <div id="errorMessage" class="error-message hidden">

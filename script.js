@@ -11,7 +11,6 @@ let filteredPokemon = [];
 const pokemonGrid = document.getElementById('pokemonGrid');
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
-const loadingIndicator = document.getElementById('loadingIndicator');
 const endMessage = document.getElementById('endMessage');
 const noResults = document.getElementById('noResults');
 const errorMessage = document.getElementById('errorMessage');
@@ -97,7 +96,7 @@ async function handleSearch() {
     isSearchMode = true;
     searchQuery = query;
     pokemonGrid.innerHTML = '';
-    showLoading();
+    showSearchLoading();
     hideEndMessage();
     hideNoResults();
     hideError();
@@ -115,7 +114,7 @@ async function handleSearch() {
         
         if (filteredPokemon.length === 0) {
             showNoResults();
-            hideLoading();
+            hideSearchLoading();
             return;
         }
         
@@ -124,10 +123,10 @@ async function handleSearch() {
             await loadPokemonCard(pokemon.url);
         }
         
-        hideLoading();
+        hideSearchLoading();
     } catch (error) {
         console.error('Search error:', error);
-        hideLoading();
+        hideSearchLoading();
         showError('Failed to search Pokémon. Please try again.');
     }
 }
@@ -141,6 +140,7 @@ async function clearSearch() {
     currentOffset = 0;
     hideNoResults();
     hideEndMessage();
+    hideSearchLoading();
     await loadPokemon();
 }
 
@@ -165,7 +165,12 @@ async function loadPokemon() {
     if (isLoading) return;
     
     isLoading = true;
-    showLoading();
+    
+    // Show button spinner on initial load (first time only)
+    if (currentOffset === 0) {
+        showSearchLoading();
+    }
+    
     hideError();
     
     try {
@@ -179,7 +184,9 @@ async function loadPokemon() {
         
         if (data.results.length === 0) {
             showEndMessage();
-            hideLoading();
+            if (currentOffset === 0) {
+                hideSearchLoading();
+            }
             isLoading = false;
             return;
         }
@@ -196,10 +203,15 @@ async function loadPokemon() {
             showEndMessage();
         }
         
-        hideLoading();
+        // Hide button spinner after initial load completes
+        if (currentOffset <= POKEMON_LIMIT) {
+            hideSearchLoading();
+        }
     } catch (error) {
         console.error('Error loading Pokemon:', error);
-        hideLoading();
+        if (currentOffset === 0) {
+            hideSearchLoading();
+        }
         showError('Failed to load Pokémon. Please try again.');
     } finally {
         isLoading = false;
@@ -359,14 +371,6 @@ function closeModal() {
 }
 
 // Utility functions
-function showLoading() {
-    loadingIndicator.classList.remove('hidden');
-}
-
-function hideLoading() {
-    loadingIndicator.classList.add('hidden');
-}
-
 function showEndMessage() {
     endMessage.classList.remove('hidden');
 }
@@ -393,6 +397,22 @@ function showError(message) {
 function hideError() {
     if (errorMessage) {
         errorMessage.classList.add('hidden');
+    }
+}
+
+function showSearchLoading() {
+    searchBtn.classList.add('loading');
+    const spinner = searchBtn.querySelector('.search-spinner');
+    if (spinner) {
+        spinner.classList.remove('hidden');
+    }
+}
+
+function hideSearchLoading() {
+    searchBtn.classList.remove('loading');
+    const spinner = searchBtn.querySelector('.search-spinner');
+    if (spinner) {
+        spinner.classList.add('hidden');
     }
 }
 
