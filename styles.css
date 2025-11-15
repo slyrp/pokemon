@@ -79,10 +79,14 @@ body {
     border-radius: 20px;
     outline: none;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
-    background: #2D2D2D;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.1s;
+    background: #1a1a1a;
     color: white;
     corner-shape: squircle;
+}
+
+#searchInput:focus {
+    background: #2D2D2D;
 }
 
 #searchInput::placeholder {
@@ -90,6 +94,22 @@ body {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
 }
+
+#searchInput:focus ~ #searchBtn,
+#searchInput:active ~ #searchBtn {
+    background: #2D2D2D;
+}
+ 
+/* For better CSS sibling targeting, if #searchBtn is not an immediate sibling but both are inside .search-container */
+.search-container:focus-within #searchBtn {
+    background: #2D2D2D;
+}
+
+#searchInput:focus::placeholder {
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
 
 #searchBtn {
     position: absolute;
@@ -100,10 +120,10 @@ body {
     font-size: 1.2rem;
     border: 1px solid #4A4A4A;
     border-radius: 15px;
-    background: #2D2D2D;
+    background: #1a1a1a;
     color: white;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.1s, transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,12 +133,13 @@ body {
     corner-shape: squircle;
 }
 
-#searchBtn svg.search-arrow {
+#searchBtn svg:not(.search-spinner) {
     display: block;
     width: 20px;
     height: 20px;
     transition: opacity 0.2s;
     position: relative;
+    flex-shrink: 0;
 }
 
 .search-spinner {
@@ -140,7 +161,7 @@ body {
     display: none;
 }
 
-#searchBtn.loading .search-arrow {
+#searchBtn.loading svg:not(.search-spinner) {
     opacity: 0;
     pointer-events: none;
 }

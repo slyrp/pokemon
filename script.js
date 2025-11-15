@@ -29,8 +29,12 @@ async function init() {
 
 // Setup event listeners
 function setupEventListeners() {
-    // Search functionality
-    searchBtn.addEventListener('click', handleSearch);
+    // Clear search functionality
+    searchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchInput.focus();
+        clearSearch();
+    });
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             handleSearch();
