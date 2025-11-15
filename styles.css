@@ -146,6 +146,7 @@ body {
     border: 1px solid #4a4a4a;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
     corner-shape: squircle;
+    animation: fadeIn 0.5s ease-in;
 }
 
 .pokemon-card:hover {
@@ -260,10 +261,6 @@ body {
 
 .error-message.hidden {
     display: none;
-}
-
-.pokemon-card {
-    animation: fadeIn 0.5s ease-in;
 }
 
 @keyframes fadeIn {
@@ -441,6 +438,16 @@ body {
 
 .modal-stat-item {
     margin-bottom: 15px;
+}
+
+.modal-stat-total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #4A4A4A;
+}
+
+.modal-stat-total-text {
+    font-size: 1.2rem;
 }
 
 .modal-stat-header {

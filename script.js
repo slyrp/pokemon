@@ -1,5 +1,4 @@
 const POKEMON_API = 'https://pokeapi.co/api/v2/pokemon';
-const POKEMON_SPECIES_API = 'https://pokeapi.co/api/v2/pokemon-species';
 const POKEMON_LIMIT = 20;
 
 let currentOffset = 0;
@@ -104,7 +103,7 @@ async function handleSearch() {
     hideError();
     
     try {
-        // First, get all Pokemon names (we'll need to search through them)
+        // Only fetch all Pokemon names when needed (lazy loading)
         if (allPokemon.length === 0) {
             await fetchAllPokemonNames();
         }
@@ -337,10 +336,10 @@ function showPokemonDetails(pokemon) {
                     </div>
                 `;
             }).join('')}
-            <div class="modal-stat-item" style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #4A4A4A;">
+            <div class="modal-stat-item modal-stat-total">
                 <div class="modal-stat-header">
-                    <span class="modal-stat-name" style="font-size: 1.2rem;">Total</span>
-                    <span class="modal-stat-value" style="font-size: 1.2rem;">${totalStats}</span>
+                    <span class="modal-stat-name modal-stat-total-text">Total</span>
+                    <span class="modal-stat-value modal-stat-total-text">${totalStats}</span>
                 </div>
             </div>
         </div>
